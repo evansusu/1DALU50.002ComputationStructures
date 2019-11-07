@@ -1,0 +1,29 @@
+module shifter (
+    input alufn[6],
+    input a[16],
+    input b[16],
+    output a_out[16]
+  ) {
+  
+  always {
+  
+    case(alufn[1:0]){
+    b00: //SHL (shift left)
+    a_out = a << b[3:0];
+        
+    b01: //SHR (shift right)
+    a_out = a >> b[3:0];
+        
+    b11: //SRA (shift right with sign extension)
+    a_out = $signed(a) >>> b[3:0];
+        
+    b10: //rotate shift (shift right, but bits shifted reappear at the front), 100010
+    
+    a_out = (a >> b[3:0]) | (a << (b10000 - c{0,b[3:0]}));
+        
+        
+    default:
+    a_out = a;
+    }
+  }
+}
